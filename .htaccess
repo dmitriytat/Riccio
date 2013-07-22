@@ -1,0 +1,16 @@
+Options -Indexes
+#ErrorDocument 402 http://gallery.dimkos.ru/402/
+#ErrorDocument 403 http://gallery.dimkos.ru/403/
+#ErrorDocument 404 http://gallery.dimkos.ru/404/
+#ErrorDocument 500 http://gallery.dimkos.ru/500/
+DirectoryIndex index.php
+
+php_value default_charset utf-8
+php_value register_globals off
+
+#<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^([^/]+).html$ index.php?page=$1 [L]
+RewriteRule ^([^/]+)/+([^/]+).html$ index.php?$1=$2 [L]
+
+#</IfModule>
