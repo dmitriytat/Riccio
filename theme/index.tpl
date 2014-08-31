@@ -1,72 +1,166 @@
-
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>{$title}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{$title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{$description}">
+    <meta name="author" content="{$author}">
+    <link rel="shortcut icon" href="{$template}favicon.ico">
+    <link href="{$template}css/style.css" rel="stylesheet">
 
-        <!-- Le styles -->
-        <link href="{$home}/theme/css/bootstrap.min.css" rel="stylesheet">
-        <link href="{$home}/theme/css/bootstrap-responsive.min.css" rel="stylesheet">
-
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-
-        <!-- Fav and touch icons -->
-        <link rel="shortcut icon" href="{$home}/theme/favicon.ico">
-        <link href="{$home}/theme/css/main.css" rel="stylesheet">
-    </head>
-
-    <body>
-
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container">
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li class="active"><a href="{$home}"><i class="icon-home icon-white"></i> {$project}</a></li>
-                            <li><a href="{$home}/computer.html"><i class="icon-fire icon-white"></i> Computer</a></li>
-                            <li><a href="https://github.com/dimkosru/Riccio"><i class="icon-download-alt icon-white"></i> GitHub</a></li>
-                        </ul>
-                    </div><!--/.nav-collapse -->
+    <meta name='yandex-verification' content='605ae5e4b76d900d' />
+    <meta name="google-site-verification" content="gqEkwClQZ6pSCEv_vdI8Dlr7KCVxSS5QNqVORp_VX6w" />
+</head>
+<body>
+<div id="mid">
+    <div class="container">
+        <div class="column large3">
+        </div>
+        <div class="column large2">
+            <div class="square">
+                <div class="hex hex-one">
+                    <div class="inner">
+                        <div class="icons-calendar"></div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="container">
-            <div class="row">
-                <h1>{$title}</h1>
+        <div class="column large2">
+            <div class="square">
+                <div class="hex hex-one"></div>
             </div>
-            <hr>
-            <!-- Example row of columns -->
-            <div class="row">
-                <div class="row">
-                    <div class="span10">
-                        {$version}
-                        {$widget}
-                    </div>
+        </div>
+        <div class="column large2">
+            <div class="square">
+                <div class="hex hex-one"></div>
+            </div>
+        </div>
+    </div>
+<div class="container">
+    <div class="column large2"></div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="column large1"></div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one centro">
+                <div class="inner">
+                    D
                 </div>
-
-
             </div>
-            <hr>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one centro">
+                <div class="inner">
+                    I
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one centro cm" id="rot">
+                <div class="inner">
+                    M
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one centro">
+                <div class="inner">
+                    K
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one centro">
+                <div class="inner">
+                    O
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="column large2">
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+    <div class="column large2">
+        <div class="square">
+            <div class="hex hex-one seq"></div>
+        </div>
+    </div>
+</div>
+    <div class="container">
+        <div class="column large3">
+        </div>
+        <div class="column large2">
+            <div class="square">
+                <div class="hex hex-one bot">
+                    <div class="inner"></div>
+                </div>
+            </div>
+        </div>
+        <div class="column large2">
+            <div class="square">
+                <div class="hex hex-one bot">
+                    <div class="inner"></div>
+                </div>
+            </div>
+        </div>
+        <div class="column large2">
+            <div class="square">
+                <div class="hex hex-one bot">
+                    <div class="inner"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            <footer>
-                <p>{$copy}</p>
-            </footer>
 
-        </div> <!-- /container -->
-
-        <!-- Le javascript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="{$home}/theme/js/jquery.js"></script>
-        <script src="{$home}/theme/js/bootstrap.min.js"></script>
-
-    </body>
+<script src="{$jquery}"></script>
+<script src="{$template}js/main.js"></script>
+</body>
 </html>

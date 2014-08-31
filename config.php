@@ -7,11 +7,8 @@ define('DB_NAME', 'riccio');
 define('DB_USER', 'root');
 
 // MySQL User`s pass
-define('DB_PASSWORD', 'star');
+define('DB_PASSWORD', '');
 
 // MySQL server
 define('DB_HOST', 'localhost');
-
-// DB Charset
-define('DB_CHARSET', 'utf8');
 ?>

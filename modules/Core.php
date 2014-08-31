@@ -25,11 +25,10 @@ class Core extends MySQLMapper {
         TemplateSystem::assign("title", $this->title);
         TemplateSystem::assign("home", $this->home);
         TemplateSystem::assign("copy", $this->copy);
-        TemplateSystem::assign("project", $this->project);
     }
 
     /**
-     * Заглушка загрузки параметров системы
+     * Загрузка параметров системы
      */
     private function initSystem() {
         $this->refresh();

@@ -24,12 +24,21 @@ class TemplateSystem {
     }
 
     /**
-     * Назначение 
-     * @param mixed $key Переменная 
+     * Назначение
+     * @param mixed $key Переменная
      * @param mixed $value Значение
      */
     public static function assign($key, $value = "") {
         self::$mKeyValues["{\$$key}"] = $value;
+    }
+
+    /**
+     * Назначение home+value
+     * @param mixed $key Переменная
+     * @param mixed $value Значение
+     */
+    public static function assignToHome($key, $value = "") {
+        self::$mKeyValues["{\$$key}"] = self::$mKeyValues['{$home}'] . $value;
     }
 
     public static function addList($key, $name, $value) {
@@ -44,27 +53,37 @@ class TemplateSystem {
     }
 
     /**
+     * Отображение доступных данных
+     */
+    public static function showData() {
+        echo json_encode(self::$mKeyValues);
+    }
+
+
+    /**
      * Отображение шаблона
-     * @param mixed $templateFile файл шаблона 
+     * @param mixed $templateFile файл шаблона
      */
     public static function showPage($templateFile) {
         foreach (self::$mKeyValues as $key => &$value) {
             $event = str_replace(array("{", "$", "}"), '', $key);
             EventSystem::fireEvent($event, array(&$value));
         }
-        $templateFile = self::$mTemplate . "/" . $templateFile;
+        $templateFile = self::$mTemplate . $templateFile;
         $fPage = fopen($templateFile, "r");
         $tPage = fread($fPage, filesize($templateFile));
         echo str_replace(array_keys(self::$mKeyValues), self::$mKeyValues, $tPage);
         //echo strtr($tPage, $this->mValues);
     }
 
+
+
     /**
      * Отображение шаблона с вызывом события при встрече выражения
      * @param mixed $templateFile файл шаблона 
      */
     public static function showPage_new($templateFile) {
-        $templateFile = self::$mTemplate . "/" . $templateFile;
+        $templateFile = self::$mTemplate . $templateFile;
         $fPage = fopen($templateFile, "r");
         $tPage = fread($fPage, filesize($templateFile));
         $found = array();
