@@ -5,34 +5,73 @@
  *
  * @author dimko
  */
-class MySQLMapper extends DBMapper {
+class MySQLMapper extends DBMapper
+{
     protected $mysqli;
-    public function __construct($mysqli) {
-        $this->mysqli=$mysqli;
+
+    public function __construct($mysqli)
+    {
+        $this->mysqli = $mysqli;
     }
 
     /**
-     * Обновление данных и загрузка их из базы
+     * Считывание данных из базы в обьект
      */
-    public function refresh(){
-        $result=$this->mysqli->query("SELECT * FROM ".strtolower(get_called_class()).";");
-         while($obj = $result->fetch_object()){ 
-            $this->data[$obj->key]=$obj->value;
+    public function read($id, $field="id")
+    {
+        $result = $this->mysqli->query("SELECT * FROM " . strtolower(get_called_class()) . " WHERE $field = '$id' LIMIT 1;");
+        if (!$result) {
+            printf("Error: %s\n", $this->mysqli->error);
         }
+        $this->data = $result->fetch_array(MYSQLI_ASSOC);
         $result->close();
     }
 
-    public function refreshBIG($id){
-        $result=$this->mysqli->query("SELECT * FROM ".strtolower(get_called_class())." WHERE id = {$id} LIMIT 1;");
+    /*
+     * Обновление данных обьекта
+     */
+    public function refresh()
+    {
+        $result = $this->mysqli->query("SELECT * FROM " . strtolower(get_called_class()) . " WHERE id = {$this->id} LIMIT 1;");
+        if (!$result) {
+            printf("Error: %s\n", $this->mysqli->error);
+        }
         $this->data = $result->fetch_array(MYSQLI_ASSOC);
         $result->close();
+    }
+
+
+    /*
+     * Запись измененного обьекта в базу данных
+     */
+    public function write()
+    {
+        $sql = "UPDATE " . strtolower(get_called_class()) . " SET ";
+        $t = "";
+        $i=0;
+        foreach ($this->data as $key => $value) {
+            if ($key != 'id'){
+                if ($i>0) $t.= ", ";
+                $t .= $key . "='" . $value . "'";
+                $i++;
+            }
+        }
+        $sql .= $t. " WHERE id = {$this->id} ";
+        $result = $this->mysqli->query($sql);
+        if (!$result) {
+            printf("Error: %s\n", $this->mysqli->error);
+        }
     }
 
     /**
      * Отображение доступных данных
      */
-    public function showData() {
+    public function showData()
+    {
         echo json_encode($this);
     }
 }
+
 ?>
+
+

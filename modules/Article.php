@@ -10,14 +10,7 @@ class Article extends MySQLMapper {
 
     public function __construct($mysqli, $id) {
         $this->mysqli=$mysqli;
-        $this->refreshBIG($id);
-      //  $this->initArticle();
-    }
-
-    /**
-     * Загрузка статьи
-     */
-    private function initArticle() {
+        $this->read($id, "alias");
     }
 }
 

@@ -77,15 +77,28 @@ class TemplateSystem {
     }
 
 
-
     /**
-     * Отображение шаблона с вызывом события при встрече выражения
+     * Отображение шаблона с вызывом события при встрече выражения,
+     * а также подключением файлов
      * @param mixed $templateFile файл шаблона 
      */
     public static function showPage_new($templateFile) {
         $templateFile = self::$mTemplate . $templateFile;
         $fPage = fopen($templateFile, "r");
         $tPage = fread($fPage, filesize($templateFile));
+
+        $includes = array();
+        preg_match_all('/\{\!(\w+)\}/', $tPage, $includes, PREG_PATTERN_ORDER);
+        $includes[0] = array_values(array_unique($includes[0]));
+        $includes[1] = array_values(array_unique($includes[1]));
+
+        foreach ($includes[1] as $i => $file) {
+            $tempFile = self::$mTemplate . $includes[1][$i] . ".tpl";
+            $fFile = fopen($tempFile, "r");
+            $includes[2][] = fread($fFile, filesize($tempFile));
+        }
+        $tPage = str_replace($includes[0], $includes[2], $tPage);
+
         $found = array();
         preg_match_all('/\{\$(\w+)\}/', $tPage, $found, PREG_PATTERN_ORDER);
         $found[0] = array_values(array_unique($found[0]));

@@ -20,19 +20,12 @@ class Core extends MySQLMapper {
 
     public function __construct($mysqli) {
         $this->mysqli=$mysqli;
-        $this->initSystem();
+        $this->read(1);
+        $this->plugins = new ArrayObject();
         $this->loadPlugins();
         TemplateSystem::assign("title", $this->title);
         TemplateSystem::assign("home", $this->home);
         TemplateSystem::assign("copy", $this->copy);
-    }
-
-    /**
-     * Загрузка параметров системы
-     */
-    private function initSystem() {
-        $this->refresh();
-        $this->plugins = new ArrayObject();
     }
 
     /**
