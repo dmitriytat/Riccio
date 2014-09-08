@@ -7,6 +7,7 @@ function __autoload($className) {
         include_once "modules/" . $className . ".php";
     else if (is_file("plugins/" . $className . ".php"))
         include_once "plugins/" . $className . ".php";
+    else echo "Class \"$className\" load error!";
 }
 
 /**
@@ -23,9 +24,6 @@ class Core extends MySQLMapper {
         $this->read(1);
         $this->plugins = new ArrayObject();
         $this->loadPlugins();
-        TemplateSystem::assign("title", $this->title);
-        TemplateSystem::assign("home", $this->home);
-        TemplateSystem::assign("copy", $this->copy);
     }
 
     /**

@@ -7,6 +7,9 @@
  */
 class TemplateSystem {
 
+    /*
+     * Файл шаблона
+     */
     private static $mTemplate;
 
     /**
