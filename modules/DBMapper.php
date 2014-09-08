@@ -9,7 +9,6 @@ abstract class DBMapper {
     public  $data=array(); // Костыль, нужно protected
 
     function __get($property) {
-
         if (isset($this->data[$property])) {
             return $this->data[$property];
         } else {
@@ -21,7 +20,24 @@ abstract class DBMapper {
         $this->data[$property] = $val;
     }
 
-    abstract public function read($id);
+    /*
+     * Загрузка данных класса в шаблонизатор
+     */
+    public function toTemplate(){
+        foreach ($this->data as $key => $value) {
+            TemplateSystem::assign(strtolower(get_called_class()) ."_". $key, $value);
+        }
+    }
+
+    /**
+     * Отображение доступных данных
+     */
+    public function showData()
+    {
+        echo json_encode($this);
+    }
+
+    abstract public function read($id, $field);
     abstract public function refresh();
     abstract public function write();
 }

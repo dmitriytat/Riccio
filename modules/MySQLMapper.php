@@ -24,6 +24,7 @@ class MySQLMapper extends DBMapper
             printf("Error: %s\n", $this->mysqli->error);
         }
         $this->data = $result->fetch_array(MYSQLI_ASSOC);
+        $this->toTemplate();
         $result->close();
     }
 
@@ -61,14 +62,6 @@ class MySQLMapper extends DBMapper
         if (!$result) {
             printf("Error: %s\n", $this->mysqli->error);
         }
-    }
-
-    /**
-     * Отображение доступных данных
-     */
-    public function showData()
-    {
-        echo json_encode($this);
     }
 }
 

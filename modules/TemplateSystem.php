@@ -115,6 +115,8 @@ class TemplateSystem {
         echo str_replace($found[0], $found[2], $tPage);
     }
 
+
+
 }
 
 ?>
