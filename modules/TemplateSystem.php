@@ -41,7 +41,7 @@ class TemplateSystem {
      * @param mixed $value Значение
      */
     public static function assignToHome($key, $value = "") {
-        self::$mKeyValues["{\$$key}"] = self::$mKeyValues['{$home}'] . $value;
+        self::$mKeyValues["{\$$key}"] = self::$mKeyValues['{$core_home}'] . $value;
     }
 
     public static function addList($key, $name, $value) {
