@@ -23,7 +23,7 @@ TemplateSystem::addList('other_version', 'Реализовано', $version);
 
 TemplateSystem::assignToHome('lib_jquery', $Core->js . '/lib/jquery-2.0.3.min.js');
 TemplateSystem::assignToHome('core_template', $template);
-
+$User = new User($mysqli, "root", "pswd");
 if (isset($_GET['content'])) {
     if (isset($_POST['edit'])) {
         $Article = new Article($mysqli, $_GET['content']);

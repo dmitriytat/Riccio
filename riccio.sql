@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: 127.0.0.1
--- Время создания: Сен 08 2014 г., 21:03
+-- Время создания: Сен 10 2014 г., 01:11
 -- Версия сервера: 5.5.25
 -- Версия PHP: 5.3.13
 
@@ -66,6 +66,27 @@ CREATE TABLE IF NOT EXISTS `core` (
 
 INSERT INTO `core` (`id`, `title`, `home`, `copy`, `theme`, `js`) VALUES
 (1, 'Riccio CMS', 'http://riccio/', '&copy Dimko 2012-2014', 'default', 'js');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(12) NOT NULL,
+  `password` varchar(8) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `login` (`login`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Дамп данных таблицы `user`
+--
+
+INSERT INTO `user` (`id`, `login`, `password`) VALUES
+(1, 'root', 'pswd');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

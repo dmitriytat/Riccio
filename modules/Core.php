@@ -21,7 +21,7 @@ class Core extends MySQLMapper {
 
     public function __construct($mysqli) {
         $this->mysqli=$mysqli;
-        $this->read(1);
+        $this->read("id", 1);
         $this->plugins = new ArrayObject();
         $this->loadPlugins();
     }

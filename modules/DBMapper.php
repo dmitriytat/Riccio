@@ -37,7 +37,7 @@ abstract class DBMapper {
         echo json_encode($this);
     }
 
-    abstract public function read($id, $field);
+    abstract public function read();
     abstract public function refresh();
     abstract public function write();
 }

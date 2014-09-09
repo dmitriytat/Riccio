@@ -17,9 +17,18 @@ class MySQLMapper extends DBMapper
     /**
      * Считывание данных из базы в обьект
      */
-    public function read($id, $field="id")
+    public function read()
     {
-        $result = $this->mysqli->query("SELECT * FROM " . strtolower(get_called_class()) . " WHERE $field = '$id' LIMIT 1;");
+        $where = "";
+        $numargs = func_num_args();
+        if ($numargs % 2 != 0) echo "Read args count error!";
+        $arg_list = func_get_args();
+        for ($i = 0; $i < $numargs; $i += 2) {
+            $where .= $arg_list[$i] . " = '" . $arg_list[$i + 1] . "'";
+            if ($i < $numargs - 2) $where .= " AND ";
+        }
+
+        $result = $this->mysqli->query("SELECT * FROM " . strtolower(get_called_class()) . " WHERE $where LIMIT 1;");
         if (!$result) {
             printf("Error: %s\n", $this->mysqli->error);
         }
@@ -49,15 +58,15 @@ class MySQLMapper extends DBMapper
     {
         $sql = "UPDATE " . strtolower(get_called_class()) . " SET ";
         $t = "";
-        $i=0;
+        $i = 0;
         foreach ($this->data as $key => $value) {
-            if ($key != 'id'){
-                if ($i>0) $t.= ", ";
+            if ($key != 'id') {
+                if ($i > 0) $t .= ", ";
                 $t .= $key . "='" . $value . "'";
                 $i++;
             }
         }
-        $sql .= $t. " WHERE id = {$this->id} ";
+        $sql .= $t . " WHERE id = {$this->id} ";
         $result = $this->mysqli->query($sql);
         if (!$result) {
             printf("Error: %s\n", $this->mysqli->error);
