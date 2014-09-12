@@ -1,0 +1,76 @@
+/* Bootstrap custom
+-------------------------------------------------- */
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus,
+.nav-pills > li > a  {
+	padding: 5px 10px;
+	border-bottom: none;
+}
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+	background-color: #0493c2;
+}
+
+.container, .container-fluid {
+	 font-family: 'Open Sans', sans-serif;
+	 font-weight: 300;
+}
+
+.1container-fluid {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+
+/* Custom
+-------------------------------------------------- */
+a {
+	border-bottom: 1px solid #cbdeeb;
+}
+
+a:hover {
+	text-decoration: none;
+	border-bottom: 1px solid #428bca;	
+}
+
+.page-header  {
+	margin: 15px 0;
+	border: none;
+	padding-bottom: 0px;
+}
+
+.pattern-header {
+	background: url(../../img/pattern_1.png) repeat-x;
+	height: 100px;
+}
+
+.navbar-main{
+  padding: 20px 0; 
+  font-size: 15px;
+  text-align: right;
+}
+
+ .text-copyright {
+  font-size: 14px;
+  text-align: right;
+ }
+
+ .container-fluid .text-muted, .container-fluid .text-copyright {
+  margin: 15px 0;
+}
+
+
+.mainpage-text {
+	padding: 10px 0px;
+}
+
+
+.logo-main {
+	padding: 5px 0 0 0;
+	min-height: 39px;
+	font-size: 19px;
+	font-weight: 400;
+}

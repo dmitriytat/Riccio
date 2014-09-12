@@ -18,7 +18,7 @@
         <h1 r-editable="true" r-type="string" r-field="title">{$article_title}</h1>
         <p class="large6" r-editable="true" r-type="string" r-field="keywords">{$article_keywords}</p>
         <p class="large9" r-editable="true" r-type="string" r-field="description">{$article_description}</p>
-        <p class="large12" r-editable="true" r-type="text" r-field="content">{$article_content}</p>
+        <p class="large12" r-editable="true" r-type="string" r-field="content">{$article_content}</p>
     </div>
     <div class="column large5 rightcol">
         <div class="widget">
@@ -29,31 +29,6 @@
                 a
                 sdf
                 vd
-                fav
-                safd
-                va
-                sfa
-                es
-                dsfsfd
-                asdf
-                a
-                sdf
-                vd
-                fav
-                safd
-                va
-                sfa
-                es
-                dsfsfd
-                asdf
-                a
-                sdf
-                vd
-                fav
-                safd
-                va
-                sfa
-                es
             </div>
         </div>
         <div class="widget">
@@ -65,30 +40,6 @@
                 sdf
                 vd
                 fav
-                safd
-                va
-                sfa
-                es
-                dsfsfd
-                asdf
-                a
-                sdf
-                vd
-                fav
-                safd
-                va
-                sfa
-                es
-                dsfsfd
-                asdf
-                a
-                sdf
-                vd
-                fav
-                safd
-                va
-                sfa
-                es
             </div>
         </div>
     </div>
