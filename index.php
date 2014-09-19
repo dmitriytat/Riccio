@@ -13,7 +13,8 @@ if ($mysqli->connect_error) {
 }
 
 $Core = new Core($mysqli);
-$template = 'themes/' . $Core->theme . '/';
+//$template = 'themes/' . $Core->theme . '/';
+$template = 'themes/default/';
 TemplateSystem::setTemplate($template);
 
 $version[] = 'Система событий';

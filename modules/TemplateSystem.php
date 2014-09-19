@@ -102,6 +102,16 @@ class TemplateSystem {
         }
         $tPage = str_replace($includes[0], $includes[2], $tPage);
 
+
+        $lists = array();
+        preg_match_all('/\{\*(\w+)\_(\w+\-\w+)\}/', $tPage, $lists, PREG_PATTERN_ORDER);
+        $lists[0] = array_values(array_unique($lists[0]));
+        $lists[1] = array_values(array_unique($lists[1]));
+        $lists[2] = array_values(array_unique($lists[2]));
+
+        print_r($lists);
+
+
         $found = array();
         preg_match_all('/\{\$(\w+)\}/', $tPage, $found, PREG_PATTERN_ORDER);
         $found[0] = array_values(array_unique($found[0]));
