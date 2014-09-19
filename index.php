@@ -28,9 +28,9 @@ $User = new User($mysqli, "root", "pswd");
 if (isset($_GET['content'])) {
     if (isset($_POST['edit'])) {
         $Article = new Article($mysqli, $_GET['content']);
-        $Article->data[$_POST['field']]=$_POST['value'];
+        $Article->$_POST['field'] = $_POST['value'];
         $Article->write();
-        echo $Article->data[$_POST['field']];
+        echo $Article->$_POST['field'];
     } else {
         $Article = new Article($mysqli, $_GET['content']);
         TemplateSystem::showPage_new('content.tpl');
@@ -44,5 +44,5 @@ if (isset($_GET['content'])) {
     TemplateSystem::showPage_new('index.tpl');
 
 $mysqli->close();
-printf('<!-- Страница сгенерирована за %.5f сек. -->', microtime()-ST_T);
+printf('<!-- Страница сгенерирована за %.5f сек. -->', microtime() - ST_T);
 ?>

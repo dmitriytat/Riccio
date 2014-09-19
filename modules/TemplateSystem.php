@@ -76,7 +76,6 @@ class TemplateSystem {
         $fPage = fopen($templateFile, "r");
         $tPage = fread($fPage, filesize($templateFile));
         echo str_replace(array_keys(self::$mKeyValues), self::$mKeyValues, $tPage);
-        //echo strtr($tPage, $this->mValues);
     }
 
 
@@ -103,14 +102,18 @@ class TemplateSystem {
         $tPage = str_replace($includes[0], $includes[2], $tPage);
 
 
-        $lists = array();
-        preg_match_all('/\{\*(\w+)\_(\w+\-\w+)\}/', $tPage, $lists, PREG_PATTERN_ORDER);
-        $lists[0] = array_values(array_unique($lists[0]));
-        $lists[1] = array_values(array_unique($lists[1]));
-        $lists[2] = array_values(array_unique($lists[2]));
-
-        print_r($lists);
-
+//        $lists = array();
+//        preg_match_all('/\{\*(\w+)\_(\w+\-\w+)\}/', $tPage, $lists, PREG_PATTERN_ORDER);
+//        $lists[0] = array_values(array_unique($lists[0]));
+//        $lists[1] = array_values(array_unique($lists[1]));
+//        $lists[2] = array_values(array_unique($lists[2]));
+//
+//
+//        foreach ($lists[1] as $i => $event) {
+//            EventSystem::fireEvent($event."_".$lists[2][$i], $lists[3]);
+//        }
+//
+//        str_replace($lists[0], $lists[3], $tPage);
 
         $found = array();
         preg_match_all('/\{\$(\w+)\}/', $tPage, $found, PREG_PATTERN_ORDER);

@@ -2,19 +2,24 @@
 
 /**
  * HelloPlugin
- * 
+ *
  * @author dimko
  */
-class HelloPlugin extends Plugin {
+class DickPlugin extends Plugin
+{
 
-    public function __construct() {
-        EventSystem::regEvent("widget", $this, "show");
+    public function __construct()
+    {
+        EventSystem::regEvent("article_title", $this, "show");
+        EventSystem::regEvent("article_keywords", $this, "show");
+        EventSystem::regEvent("article_description", $this, "show");
+        EventSystem::regEvent("article_content", $this, "show");
     }
 
-    public function show(&$param) {
-        $param .= "<div>Hello plugin!</div>";
+    public function show($param)
+    {
+        return $param .= "хуй";
     }
-
 }
 
 ?>

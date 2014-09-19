@@ -5,10 +5,12 @@
  *
  * @author dimko
  */
-abstract class DBMapper {
-    public  $data=array(); // Костыль, нужно protected
+abstract class DBMapper
+{
+    protected $data = array();
 
-    function __get($property) {
+    function __get($property)
+    {
         if (isset($this->data[$property])) {
             return $this->data[$property];
         } else {
@@ -16,16 +18,18 @@ abstract class DBMapper {
         }
     }
 
-    function __set($property, $val) {
+    function __set($property, $val)
+    {
         $this->data[$property] = $val;
     }
 
     /*
      * Загрузка данных класса в шаблонизатор
      */
-    public function toTemplate(){
+    public function toTemplate()
+    {
         foreach ($this->data as $key => $value) {
-            TemplateSystem::assign(strtolower(get_called_class()) ."_". $key, $value);
+            TemplateSystem::assign(strtolower(get_called_class()) . "_" . $key, $value);
         }
     }
 
@@ -38,7 +42,9 @@ abstract class DBMapper {
     }
 
     abstract public function read();
+
     abstract public function refresh();
+
     abstract public function write();
 }
 

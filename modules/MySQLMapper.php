@@ -33,7 +33,36 @@ class MySQLMapper extends DBMapper
             printf("Error: %s\n", $this->mysqli->error);
         }
         $this->data = $result->fetch_array(MYSQLI_ASSOC);
+
         $this->toTemplate();
+        $result->close();
+    }
+
+    /**
+     * Считывание данных из базы в обьект
+     */
+    public function readList($classname)
+    {
+        $where = "";
+        $numargs = func_num_args();
+        if ($numargs % 2 != 1) echo "Read args count error!";
+        $arg_list = func_get_args();
+        for ($i = 1; $i < $numargs; $i += 2) {
+            $where .= $arg_list[$i] . " = '" . $arg_list[$i + 1] . "'";
+            if ($i < $numargs - 3) $where .= " AND ";
+        }
+        if ($where != "") $where = "WHERE " . $where;
+
+        echo $where;
+        $result = $this->mysqli->query("SELECT * FROM " . strtolower($classname) . " $where;");
+        if (!$result) {
+            printf("Error: %s\n", $this->mysqli->error);
+        }
+
+        while ($line = $result->fetch_array(MYSQLI_ASSOC)) {
+            $this->data[$line['id']] = $line;
+        }
+
         $result->close();
     }
 
@@ -47,6 +76,7 @@ class MySQLMapper extends DBMapper
             printf("Error: %s\n", $this->mysqli->error);
         }
         $this->data = $result->fetch_array(MYSQLI_ASSOC);
+
         $result->close();
     }
 

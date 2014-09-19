@@ -11,7 +11,7 @@ class HelloPlugin extends Plugin {
         EventSystem::regEvent("widget", $this, "show");
     }
 
-    public function show(&$param) {
+    public function show($param) {
         $param .= "<div>Hello plugin!</div>";
     }
 
