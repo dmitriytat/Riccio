@@ -119,20 +119,19 @@ class TemplateSystem {
         preg_match_all('/\{\$(\w+)\}/', $tPage, $found, PREG_PATTERN_ORDER);
         $found[0] = array_values(array_unique($found[0]));
         $found[1] = array_values(array_unique($found[1]));
+
         foreach ($found[0] as $key) {
             if (isset(self::$mKeyValues{$key}))
                 $found[2][] = self::$mKeyValues{$key};
             else
                 $found[2][] = "";
         }
+
         foreach ($found[1] as $i => $event) {
             EventSystem::fireEvent($event, array(&$found[2][$i]));
         }
         echo str_replace($found[0], $found[2], $tPage);
     }
-
-
-
 }
 
 ?>

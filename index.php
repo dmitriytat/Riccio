@@ -24,7 +24,19 @@ TemplateSystem::addList('other_version', 'Реализовано', $version);
 
 TemplateSystem::assignToHome('lib_jquery', $Core->js . '/lib/jquery-2.0.3.min.js');
 TemplateSystem::assignToHome('core_template', $template);
-$User = new User($mysqli, "root", "pswd");
+$User = new User($mysqli);
+//$User->read("login", $login, "password", $password);
+$User2 = new User($mysqli);
+if (!$User2->read("login", "dimkoqwe1", "password", "lolka")) {
+    $User2->login = "dimkoqwe1";
+    $User2->password = "lolka";
+    $User2->write();
+    echo "Записал id=" . $User2->id;
+}
+else
+{
+    echo "Прочитал id=" . $User2->id;
+}
 if (isset($_GET['content'])) {
     if (isset($_POST['edit'])) {
         $Article = new Article($mysqli, $_GET['content']);

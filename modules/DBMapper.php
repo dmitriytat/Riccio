@@ -28,9 +28,10 @@ abstract class DBMapper
      */
     public function toTemplate()
     {
-        foreach ($this->data as $key => $value) {
-            TemplateSystem::assign(strtolower(get_called_class()) . "_" . $key, $value);
-        }
+        if (!empty($this->data))
+            foreach ($this->data as $key => $value) {
+                TemplateSystem::assign(strtolower(get_called_class()) . "_" . $key, $value);
+            }
     }
 
     /**

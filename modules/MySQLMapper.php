@@ -36,6 +36,7 @@ class MySQLMapper extends DBMapper
 
         $this->toTemplate();
         $result->close();
+        return $this->id;
     }
 
     /**
@@ -86,21 +87,33 @@ class MySQLMapper extends DBMapper
      */
     public function write()
     {
-        $sql = "UPDATE " . strtolower(get_called_class()) . " SET ";
-        $t = "";
-        $i = 0;
-        foreach ($this->data as $key => $value) {
-            if ($key != 'id') {
-                if ($i > 0) $t .= ", ";
-                $t .= $key . "='" . $value . "'";
-                $i++;
+        $sql = "";
+        if (isset($this->id) and $this->id != 0) {
+            $sql = "UPDATE " . strtolower(get_called_class()) . " SET ";
+            $t = "";
+            $i = 0;
+            foreach ($this->data as $key => $value) {
+                if ($key != 'id') {
+                    if ($i > 0) $t .= ", ";
+                    $t .= $key . "='" . $value . "'";
+                    $i++;
+                }
             }
+            $sql .= $t . " WHERE id = {$this->id} ";
+        } else {
+            $sql = sprintf(
+                "INSERT INTO " . strtolower(get_called_class()) . " (%s) VALUES (\"%s\")",
+                implode(',', array_keys($this->data)),
+                implode('","', array_values($this->data))
+            );
+            $this->id=$this->mysqli->insert_id;
         }
-        $sql .= $t . " WHERE id = {$this->id} ";
         $result = $this->mysqli->query($sql);
         if (!$result) {
             printf("Error: %s\n", $this->mysqli->error);
         }
+
+        return $this->id;
     }
 }
 

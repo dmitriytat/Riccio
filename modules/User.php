@@ -7,8 +7,7 @@
  */
 
 class User  extends MySQLMapper {
-    public function __construct($mysqli, $login, $password) {
+    public function __construct($mysqli) {
         $this->mysqli=$mysqli;
-        $this->read("login",$login, "password", $password);
     }
 }
