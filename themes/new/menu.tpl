@@ -1,0 +1,1 @@
+<li role="presentation"><a r-id="{$id}" href="{$Core/home}{$alias}.html">{$title}</a></li>

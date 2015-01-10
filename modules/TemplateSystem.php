@@ -62,6 +62,37 @@ class TemplateSystem {
         echo json_encode(self::$mKeyValues);
     }
 
+    /**
+     * Отображение шаблона
+     * @param mixed $templateFile файл шаблона
+     * @param mixed $json_data данные в формате json
+     * @return рендер страницы
+     */
+    public static function getPage($templateFile, $json_data) {
+        $templateFile = self::$mTemplate . $templateFile;
+        $fPage = fopen($templateFile, "r");
+        $tPage = fread($fPage, filesize($templateFile));
+
+        $matches = array();
+        preg_match_all('/\{([$!])(\w+)\/?(\w+)?\,?\s?([\w.]+)?\}/', $tPage, $matches, PREG_PATTERN_ORDER);
+
+        $data = json_decode($json_data, true);
+
+        foreach ($matches[4] as $i => $file) {
+           if ($file!=''){
+               if ($matches[1][$i]=='!') {
+                   foreach($data[$matches[2][$i]][$matches[3][$i]] as $j => $item)
+                       $matches[5][$i] .= self::getPage($file, json_encode($item));
+               }else
+               $matches[5][$i] = self::getPage($file, json_encode($matches[3][$i]=='' ? $data :$data[$matches[2][$i]]));
+           } else{
+                $matches[5][$i] = $matches[3][$i]=='' ? $data[$matches[2][$i]] : $data[$matches[2][$i]][$matches[3][$i]];
+               if ($matches[5][$i]=='') $matches[5][$i]=$matches[0][$i];
+           }
+        }
+        $tPage = str_replace($matches[0], $matches[5], $tPage);
+        return str_replace($matches[0], $matches[5], $tPage);
+    }
 
     /**
      * Отображение шаблона

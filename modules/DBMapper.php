@@ -7,14 +7,14 @@
  */
 abstract class DBMapper
 {
-    protected $data = array();
+    public  $data = array();
 
     function __get($property)
     {
         if (isset($this->data[$property])) {
             return $this->data[$property];
         } else {
-            echo "Error $property doesn`t set\n";
+           // echo "Error $property doesn`t set\n";
         }
     }
 

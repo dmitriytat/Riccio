@@ -13,47 +13,43 @@ if ($mysqli->connect_error) {
 }
 
 $Core = new Core($mysqli);
-//$template = 'themes/' . $Core->theme . '/';
-$template = 'themes/default/';
+$template = 'themes/' . $Core->theme . '/';
 TemplateSystem::setTemplate($template);
 
-$version[] = 'Система событий';
-$version[] = 'Система шаблонов';
-$version[] = 'Подключение плагинов';
-TemplateSystem::addList('other_version', 'Реализовано', $version);
-
-TemplateSystem::assignToHome('lib_jquery', $Core->js . '/lib/jquery-2.0.3.min.js');
-TemplateSystem::assignToHome('core_template', $template);
-$User = new User($mysqli);
-//$User->read("login", $login, "password", $password);
-$User2 = new User($mysqli);
-if (!$User2->read("login", "dimkoqwe1", "password", "lolka")) {
-    $User2->login = "dimkoqwe1";
-    $User2->password = "lolka";
-    $User2->write();
-    echo "Записал id=" . $User2->id;
-}
-else
-{
-    echo "Прочитал id=" . $User2->id;
-}
-if (isset($_GET['content'])) {
-    if (isset($_POST['edit'])) {
-        $Article = new Article($mysqli, $_GET['content']);
-        $Article->$_POST['field'] = $_POST['value'];
-        $Article->write();
-        echo $Article->$_POST['field'];
+//if (isset($_GET['alias']) && $_GET['alias'] != '') {
+//    $Article = new Article($mysqli, $_GET['alias']);
+//    $json_data = json_encode($Article);
+//    if (isset($_GET['mode']) && $_GET['mode'] == 'json') {
+//        echo $json_data;
+//    } else {
+//        TemplateSystem::printPage($_GET['alias']+'.tpl', $json_data);
+//    }
+//}
+$Context = '{
+  "Library": {
+    "jquery": "http://yastatic.net/jquery/1.11.1/jquery.min.js"
+  }
+}';
+    $Context = json_decode($Context, true);
+    $Context['Core'] = $Core->data;
+    $m = new Article($mysqli,'');
+    $m->readList('article');
+    $Context['Menu']['Items'] = $m->data ;
+    $Context = json_encode($Context);
+if (isset($_GET['alias']) && $_GET['alias'] != '') {
+    $Context = json_decode($Context, true);
+    $d = new Article($mysqli, $_GET['alias']);
+    $Context['Article'] = $d->data;
+    $Context = json_encode($Context);
+    if (isset($_GET['mode']) && $_GET['mode'] == 'json') {
+        echo $Context;
     } else {
-        $Article = new Article($mysqli, $_GET['content']);
-        TemplateSystem::showPage_new('content.tpl');
+        echo TemplateSystem::getPage('content.tpl', $Context);
     }
-} elseif (isset($_GET['page'])) {
-    if ($_GET['page'] == 'tdata')
-        TemplateSystem::showData();
-    elseif ($_GET['page'] != '')
-        TemplateSystem::showPage_new($_GET['page'] . '.tpl');
-} else
-    TemplateSystem::showPage_new('index.tpl');
+}
+else {
+    echo TemplateSystem::getPage('index.tpl', $Context);
+}
 
 $mysqli->close();
 printf('<!-- Страница сгенерирована за %.5f сек. -->', microtime() - ST_T);
