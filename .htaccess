@@ -13,4 +13,8 @@ RewriteEngine On
 RewriteRule ^([^/]+).html$ index.php?alias=$1 [L]
 RewriteRule ^([^/]+).json$ index.php?alias=$1&mode=json [L]
 
+
+RewriteRule ^([^/]+)/+([^/]+)/+([^/]+).json$ index.php?alias=$1&select=$2&limit=$3&mode=json [L]
+
+
 #</IfModule>

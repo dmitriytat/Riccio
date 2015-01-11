@@ -30,11 +30,7 @@
         <h3 class="text-muted"><a href="{$Core/home}">{$Core/title}</a></h3>
     </div>
 
-    <div class="jumbotron">
-        <h1>{$Core/title}</h1>
-        <p class="lead">Небольшая презентация возможностей</p>
-        <p>Есть проблема с вложенным вызовом {$Core/home} $Core/home</p>
-    </div>
+    {!List/Items, article.tpl}
 
 
     <footer class="footer">

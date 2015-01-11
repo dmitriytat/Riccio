@@ -1,5 +1,4 @@
 <?php
-
 define('ST_T', microtime());
 
 require_once 'config.php';
@@ -13,42 +12,33 @@ if ($mysqli->connect_error) {
 }
 
 $Core = new Core($mysqli);
-$template = 'themes/' . $Core->theme . '/';
+$template = 'themes/' . $Core->theme;
 TemplateSystem::setTemplate($template);
 
-//if (isset($_GET['alias']) && $_GET['alias'] != '') {
-//    $Article = new Article($mysqli, $_GET['alias']);
-//    $json_data = json_encode($Article);
-//    if (isset($_GET['mode']) && $_GET['mode'] == 'json') {
-//        echo $json_data;
-//    } else {
-//        TemplateSystem::printPage($_GET['alias']+'.tpl', $json_data);
-//    }
-//}
-$Context = '{
-  "Library": {
-    "jquery": "http://yastatic.net/jquery/1.11.1/jquery.min.js"
-  }
-}';
-    $Context = json_decode($Context, true);
-    $Context['Core'] = $Core->data;
-    $m = new Article($mysqli,'');
-    $m->readList('article');
-    $Context['Menu']['Items'] = $m->data ;
-    $Context = json_encode($Context);
+$Context = array();
+$Context['Library']['jquery'] = 'http://yastatic.net/jquery/1.11.1/jquery.min.js';
+$Context['Core'] = $Core->getData();
+
+
+$Article = new Article($mysqli);
+$Context['Menu']['Items'] = $Article->getArticle(array('id','title','alias'), null,10) ;
+$Context['List']['Items'] = $Article->getArticle(null, null,10) ;
+
 if (isset($_GET['alias']) && $_GET['alias'] != '') {
-    $Context = json_decode($Context, true);
-    $d = new Article($mysqli, $_GET['alias']);
-    $Context['Article'] = $d->data;
-    $Context = json_encode($Context);
+    $Context['Article'] = $Article->getArticle(array(), array('alias'=>$_GET['alias'])) ;
+
     if (isset($_GET['mode']) && $_GET['mode'] == 'json') {
-        echo $Context;
+        $select = isset($_GET["select"]) ? explode(",", $_GET["select"]) : null;
+        $dat = $Article->getArticle($select, array('alias'=>$_GET["alias"]), isset($_GET["limit"]) ? $_GET["alias"] : 1);
+
+
+        echo json_encode($dat);
     } else {
-        echo TemplateSystem::getPage('content.tpl', $Context);
+        echo TemplateSystem::showPage('single.tpl', $Context);
     }
 }
 else {
-    echo TemplateSystem::getPage('index.tpl', $Context);
+    echo TemplateSystem::showPage('index.tpl', $Context);
 }
 
 $mysqli->close();

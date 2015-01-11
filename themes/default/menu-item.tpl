@@ -1,1 +1,0 @@
-<li class="column large4 menu-item"><a href="{$article_alias}.html">{$article_title}</a></li>

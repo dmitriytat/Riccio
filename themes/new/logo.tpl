@@ -1,1 +1,0 @@
-<img src="{$home}ric.jpg"/>
