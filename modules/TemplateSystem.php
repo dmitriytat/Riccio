@@ -40,13 +40,15 @@ class TemplateSystem
         $tPage = fread($fPage, filesize($templateFile));
 
         $matches = array();
-        preg_match_all('/\{([$!])(\w+)\/?(\w+)?\,?\s?([\w.]+)?\}/', $tPage, $matches, PREG_PATTERN_ORDER);
+        preg_match_all('/\{([$!#])(\w+)\/?(\w+)?\,?\s?([\w.]+)?\}/', $tPage, $matches, PREG_PATTERN_ORDER);
 
         foreach ($matches[4] as $i => $file) {
             if ($file != '') {
                 if ($matches[1][$i] == '!') {
                     foreach ($data[$matches[2][$i]][$matches[3][$i]] as $j => $item)
                         $matches[5][$i] .= self::showPage($file, $item);
+                } elseif ($matches[1][$i] == '#') {
+                    $matches[5][$i] = self::showPage($file, $data);
                 } else
                     $matches[5][$i] = self::showPage($file, $data[$matches[2][$i]]);
             } else {
@@ -56,7 +58,6 @@ class TemplateSystem
                 EventSystem::fireEvent($matches[2][$i] . ($matches[3][$i] != '' ? '/' . $matches[3][$i] : ''), array(&$matches[5][$i]));
             }
         }
-
 
         $tPage = str_replace($matches[0], $matches[5], $tPage);
         return str_replace($matches[0], $matches[5], $tPage);

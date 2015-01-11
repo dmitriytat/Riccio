@@ -16,7 +16,6 @@ $template = 'themes/' . $Core->theme;
 TemplateSystem::setTemplate($template);
 
 $Context = array();
-$Context['Library']['jquery'] = 'http://yastatic.net/jquery/1.11.1/jquery.min.js';
 $Context['Core'] = $Core->getData();
 
 
@@ -34,10 +33,12 @@ if (isset($_GET['alias']) && $_GET['alias'] != '') {
 
         echo json_encode($dat);
     } else {
+        $Context['Page']['title'] = $Context['Article']['title'];
         echo TemplateSystem::showPage('single.tpl', $Context);
     }
 }
 else {
+    $Context['Page']['title'] = $Context['Core']['title'];
     echo TemplateSystem::showPage('index.tpl', $Context);
 }
 
