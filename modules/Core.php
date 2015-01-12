@@ -2,13 +2,18 @@
 
 function __autoload($className)
 {
-    $className = str_replace("..", "", $className);
-
+   // $className = str_replace("..", "", $className);
+    try {
     if (is_file("modules/" . $className . ".php"))
-        include_once "modules/" . $className . ".php";
-    else if (is_file("plugins/" . $className . "/". $className . ".php"))
-        include_once "plugins/" . $className . "/". $className . ".php";
-    else echo "Class \"$className\" load error!";
+        require_once "modules/" . $className . ".php";
+    else
+        if (is_file("plugins/" . $className . "/" . $className . ".php"))
+            require_once "plugins/" . $className . "/" . $className . ".php";
+        else
+            echo "Class \"$className\" load error!";
+    } catch (Exception $e) {
+        echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+    }
 }
 
 /**
@@ -71,7 +76,7 @@ class Core
     {
         if ($dir = scandir('plugins/'))
             foreach ($dir as $class) {
-                $plugfile = 'plugins/' . $class . '/'. $class .'.php';
+                $plugfile = 'plugins/' . $class . '/' . $class . '.php';
                 if (is_file($plugfile)) {
                     if (class_exists($class))
                         if (get_parent_class($class) == 'Plugin') {

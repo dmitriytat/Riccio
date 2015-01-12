@@ -29,7 +29,7 @@ class TemplateSystem
      * @param array $data данные в массиве
      * @return рендер страницы
      */
-    public static function showPage($templateFile, $data, $dir = null)
+    public static function showPage($templateFile, $data, $dir = null, $req = false)
     {
         if ($dir)
             $templateFile = $dir . '/' . $templateFile;
@@ -46,11 +46,11 @@ class TemplateSystem
             if ($file != '') {
                 if ($matches[1][$i] == '!') {
                     foreach ($data[$matches[2][$i]][$matches[3][$i]] as $j => $item)
-                        $matches[5][$i] .= self::showPage($file, $item);
+                        $matches[5][$i] .= self::showPage($file, $item, $dir, true);
                 } elseif ($matches[1][$i] == '#') {
-                    $matches[5][$i] = self::showPage($file, $data);
+                    $matches[5][$i] = self::showPage($file, $data, $dir, true);
                 } else
-                    $matches[5][$i] = self::showPage($file, $data[$matches[2][$i]]);
+                    $matches[5][$i] = self::showPage($file, $data[$matches[2][$i]], $dir, true);
             } else {
                 $matches[5][$i] = $matches[3][$i] == '' ? $data[$matches[2][$i]] : $data[$matches[2][$i]][$matches[3][$i]];
                 if ($matches[5][$i] == '')
@@ -58,8 +58,8 @@ class TemplateSystem
                 EventSystem::fireEvent($matches[2][$i] . ($matches[3][$i] != '' ? '/' . $matches[3][$i] : ''), array(&$matches[5][$i]));
             }
         }
-
-        $tPage = str_replace($matches[0], $matches[5], $tPage);
+        if (!$req)
+            $tPage = str_replace($matches[0], $matches[5], $tPage);
         return str_replace($matches[0], $matches[5], $tPage);
     }
 }

@@ -7,7 +7,7 @@ define('DB_NAME', 'riccio');
 define('DB_USER', 'root');
 
 // MySQL User`s pass
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'cxz3500');
 
 // MySQL server
 define('DB_HOST', 'localhost');

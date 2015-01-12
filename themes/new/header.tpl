@@ -17,7 +17,6 @@
     <![endif]-->
     <link href="css/style.css" rel="stylesheet">
     <link rel="icon" href="favicon.ico">
-    {#Head}
 </head>
 <body>
 
