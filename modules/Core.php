@@ -49,7 +49,7 @@ class Core
         $result->close();
 
         $this->data['title'] = $res['title'];
-        $this->data['home'] = $res['home'];
+        $this->data['home'] = $_SERVER['SERVER_NAME'];
         $this->data['theme'] = $res['theme'];
         $this->data['copy'] = $res['copy'];
 

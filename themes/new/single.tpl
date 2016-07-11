@@ -6,7 +6,7 @@
                 {!Menu/Items, menu.tpl}
             </ul>
         </nav>
-        <h3 class="text-muted"><a href="{$Core/home}">{$Core/title}</a></h3>
+        <h3 class="text-muted"><a href="/">{$Core/title}</a></h3>
     </div>
 
     {$Article, article.tpl}

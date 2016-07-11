@@ -13,8 +13,8 @@ class SocialShare extends Plugin
         EventSystem::regEvent("SocialShare", $this, "proceed");
     }
 
-    public function proceed($param)
+    public function proceed(&$param)
     {
-        $param = TemplateSystem::showPage('buttons.tpl', null, 'plugins/' . get_called_class());
+        $param = TemplateSystem::showPage('buttons.tpl', array('url' => $param), 'plugins/' . get_called_class());
     }
 }

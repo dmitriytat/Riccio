@@ -29,7 +29,7 @@ class Article
         if (!empty($select)) {
             foreach ($select as $sel)
                 $slct .= "$sel, ";
-            $slct = mb_substr($slct, 0, -2);
+            $slct = substr($slct, 0, -2);
         } else
             $slct = '*';
 
@@ -37,7 +37,7 @@ class Article
         if (!empty($where)) {
             foreach ($where as $key => $val)
                 $whr .= "$key='$val' AND ";
-            $whr = mb_substr($whr, 0, -5);
+            $whr = substr($whr, 0, -5);
         } else
             $whr = '';
 

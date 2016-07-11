@@ -1,1 +1,1 @@
-<li role="presentation"><a r-id="{$id}" href="{$Core/home}index.php?alias={$alias}">{$title}</a></li>
+<li role="presentation"><a r-id="{$id}" href="/{$alias}.html">{$title}</a></li>

@@ -12,7 +12,7 @@ class Keywords extends Plugin
         EventSystem::regEvent("keywords", $this, "proceed");
     }
 
-    public function proceed($param)
+    public function proceed(&$param)
     {
         if (isset($param)) {
             $words = explode(",", $param);
@@ -20,6 +20,7 @@ class Keywords extends Plugin
             foreach ($words as $word) {
                 $temp .= TemplateSystem::showPage('keyword.tpl', array('word'=>$word), 'plugins/'.get_called_class());
             }
+
             $param = $temp;
         }
     }

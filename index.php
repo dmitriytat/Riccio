@@ -1,6 +1,7 @@
 <?php
 //error_reporting(E_ALL);
 //ini_set('display_errors', 1);
+
 define('ST_T', microtime());
 
 
@@ -16,10 +17,12 @@ if ($mysqli->connect_error) {
 }
 
 $Core = new Core($mysqli);
+$Context = array();
+
 $template = 'themes/' . $Core->theme;
+
 TemplateSystem::setTemplate($template);
 
-$Context = array();
 $Context['Core'] = $Core->getData();
 
 $Article = new Article($mysqli);

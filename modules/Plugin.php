@@ -7,5 +7,5 @@
  */
 abstract class Plugin {
     abstract public function __construct();
-    abstract public function proceed($param);
+    abstract public function proceed(&$param);
 }
