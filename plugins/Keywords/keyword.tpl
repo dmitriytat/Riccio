@@ -1,1 +1,1 @@
-<button type="button" class="btn btn-default btn-xs">{$word}</button>
+<button type="button" class="btn btn-default btn-xs">${word}</button>

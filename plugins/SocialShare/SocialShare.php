@@ -15,6 +15,6 @@ class SocialShare extends Plugin
 
     public function proceed(&$param)
     {
-        $param = TemplateSystem::showPage('buttons.tpl', array('url' => $param), 'plugins/' . get_called_class());
+        $param = TemplateSystem::render('plugins/' . get_called_class() . '/buttons.tpl', array('url' => implode('', $param)));
     }
 }

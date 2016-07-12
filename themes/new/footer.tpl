@@ -1,5 +1,5 @@
 <footer class="footer">
-    <p>{$Core/copy}</p>
+    <p>${Core.copy}</p>
 </footer>
 
 </div> <!-- /container -->

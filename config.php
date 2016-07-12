@@ -11,4 +11,3 @@ define('DB_PASSWORD', 'riccio');
 
 // MySQL server
 define('DB_HOST', 'localhost');
-?>

@@ -1,1 +1,1 @@
-<li role="presentation"><a r-id="{$id}" href="/{$alias}.html">{$title}</a></li>
+<li role="presentation"><a r-id="${data.id}" href="${data.url}.html">${data.title}</a></li>

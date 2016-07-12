@@ -9,7 +9,7 @@ class Keywords extends Plugin
 {
     public function __construct()
     {
-        EventSystem::regEvent("keywords", $this, "proceed");
+        EventSystem::regEvent("data.keywords", $this, "proceed");
     }
 
     public function proceed(&$param)
@@ -18,7 +18,7 @@ class Keywords extends Plugin
             $words = explode(",", $param);
             $temp = '';
             foreach ($words as $word) {
-                $temp .= TemplateSystem::showPage('keyword.tpl', array('word'=>$word), 'plugins/'.get_called_class());
+                $temp .= TemplateSystem::render('plugins/' . get_called_class() . '/keyword.tpl', array('word' => $word));
             }
 
             $param = $temp;

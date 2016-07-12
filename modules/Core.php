@@ -2,17 +2,16 @@
 
 function __autoload($className)
 {
-   // $className = str_replace("..", "", $className);
     try {
-    if (is_file("modules/" . $className . ".php"))
-        require_once "modules/" . $className . ".php";
-    else
-        if (is_file("plugins/" . $className . "/" . $className . ".php"))
-            require_once "plugins/" . $className . "/" . $className . ".php";
+        if (is_file("modules/" . $className . ".php"))
+            require_once "modules/" . $className . ".php";
         else
-            echo "Class \"$className\" load error!";
+            if (is_file("plugins/" . $className . "/" . $className . ".php"))
+                require_once "plugins/" . $className . "/" . $className . ".php";
+            else
+                echo "Class \"$className\" load error!";
     } catch (Exception $e) {
-        echo 'Выброшено исключение: ',  $e->getMessage(), "\n";
+        echo 'Выброшено исключение: ', $e->getMessage(), "\n";
     }
 }
 
@@ -49,7 +48,7 @@ class Core
         $result->close();
 
         $this->data['title'] = $res['title'];
-        $this->data['home'] = $_SERVER['SERVER_NAME'];
+        $this->data['home'] = '//' . $_SERVER['SERVER_NAME'] . "/riccio/";
         $this->data['theme'] = $res['theme'];
         $this->data['copy'] = $res['copy'];
 
@@ -88,5 +87,3 @@ class Core
     }
 
 }
-
-?>

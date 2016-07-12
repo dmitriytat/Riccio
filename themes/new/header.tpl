@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{$Page/title}</title>
+    <title>${Page.title}</title>
 
     <!-- Bootstrap -->
     <link href="http://yastatic.net/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -21,3 +21,12 @@
 <body>
 
 <div class="container">
+
+    <div class="header">
+        <nav>
+            <ul class="nav nav-pills pull-right">
+                *{menu.tpl Menu.Items}
+            </ul>
+        </nav>
+        <h3 class="text-muted"><a href="${Core.home}">${Core.title}</a></h3>
+    </div>

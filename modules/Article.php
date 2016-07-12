@@ -9,8 +9,9 @@ class Article
 {
     private $mysqli;
 
-    public function __construct($mysqli)
+    public function __construct($core, $mysqli)
     {
+        $this->core = $core;
         $this->mysqli = $mysqli;
     }
 
@@ -47,10 +48,14 @@ class Article
         }
 
         while ($res = $result->fetch_array(MYSQLI_ASSOC)) {
-            if ($limit > 1)
+            $res['url'] = $this->core->home . $res['alias'];
+
+            if ($limit > 1) {
                 $Article[] = $res;
-            else
+            } else {
                 $Article = $res;
+            }
+
         }
 
         $result->close();

@@ -23,63 +23,139 @@ class TemplateSystem
     }
 
     /**
-     * Отображение шаблона
-     * @param mixed $templateFile файл шаблона
-     * @param array $data данные в массиве
+     * Рендер tpl
+     * @param $templateFile
+     * @param array $context
      * @return string
+     * @throws Exception
      */
-    public static function showPage($templateFile, $data, $dir = null, $req = false)
+    public static function render($templateFile, $context = array())
     {
-        if ($dir)
-            $templateFile = $dir . '/' . $templateFile;
-        else
+        if (!file_exists($templateFile))
             $templateFile = self::$mTemplate . $templateFile;
 
-        $fPage = fopen($templateFile, "r");
-        $tPage = fread($fPage, filesize($templateFile));
+        if (!file_exists($templateFile))
+            throw new Exception('Template not found');
 
-        $matches = array();
-        preg_match_all('/\{([$!#])(\w+)\/?(\w+)?\,?\s?([^\{^\}]+)?\}/', $tPage, $matches, PREG_PATTERN_ORDER);
+        $pageFile = fopen($templateFile, "r");
+        $page = fread($pageFile, filesize($templateFile));
 
-        foreach ($matches[4] as $i => $parameter) {
-            if (!isset($matches[5][$i])) $matches[5][$i] = '';
+        $actions = array();
+        $values = array();
+        preg_match_all('/([$*#])\{([\w\.]+)\s?([^{^}]+)?\}/', $page, $actions, PREG_PATTERN_ORDER);
 
-            if ($parameter != '' && $parameter[0] != '*') {
-                if ($matches[1][$i] == '!') {
-                    foreach ($data[$matches[2][$i]][$matches[3][$i]] as $item) {
-                        $matches[5][$i] .= self::showPage($parameter, $item, $dir, true);
+        foreach ($actions[3] as $i => $arguments) {
+            if (empty($arguments)) {
+                if ($actions[1][$i] == "$") {
+                    $values[$i] = self::parseExpression($actions[2][$i], $context);
+
+                    if (is_callable($values[$i])) {
+                        $values[$i] = call_user_func_array($values[$i], array());
                     }
-                } elseif ($matches[1][$i] == '#') {
-                    $matches[5][$i] = self::showPage($parameter, $data, $dir, true);
-                } else
-                    $matches[5][$i] = self::showPage($parameter, $data[$matches[2][$i]], $dir, true);
-            } else {
-                if (array_key_exists($matches[2][$i], $data))
-                    $matches[5][$i] = $matches[3][$i] == '' ? $data[$matches[2][$i]] : $data[$matches[2][$i]][$matches[3][$i]];
+                } else if ($actions[1][$i] == "#") {
+                    $rendered = '';
 
-                if ($parameter != '') {
-                    $parameterVars = array();
-                    preg_match_all('/\(([+])(\w+)\)/', $parameter, $parameterVars, PREG_PATTERN_ORDER);
+                    $rendered .= self::render($actions[2][$i], $context);
 
-                    foreach ($parameterVars[2] as $j => $varName) {
-                        $parameterVars[3][$j] = $data[$varName] ? $data[$varName] : '';
-                    }
-
-                    $matches[5][$i] = str_replace($parameterVars[0], $parameterVars[3], substr($parameter, 1));
+                    $values[$i] = $rendered;
                 }
+            } else {
+                $argumentsValues = self::parseArgs($arguments, $context);
 
-                if ($matches[5][$i] == '')
-                    $matches[5][$i] = $matches[0][$i];
+                if ($actions[1][$i] == "$") {
+                    if ($actions[2][$i] == "raw") {
+                        $values[$i] = print_r($argumentsValues, true);
+                    } else {
+                        $function = self::parseExpression($actions[2][$i], $context);
 
-                EventSystem::fireEvent($matches[2][$i] . ($matches[3][$i] != '' ? '/' . $matches[3][$i] : ''), array(&$matches[5][$i]));
+                        if (is_callable($function)) {
+                            $values[$i] = call_user_func_array($function, $argumentsValues);
+                        } else {
+                            $values[$i] = $argumentsValues;
+                        }
+                    }
+                } else if ($actions[1][$i] == "*") {
+                    $values[$i] = array_merge(...$argumentsValues);
+                    $rendered = '';
+
+                    foreach ($values[$i] as $item) {
+                        $rendered .= self::render($actions[2][$i], array('key' => 'todo', 'data' => $item));
+                    }
+
+                    $values[$i] = $rendered;
+                } else if ($actions[1][$i] == "#") {
+                    $rendered = '';
+
+                    $rendered .= self::render($actions[2][$i], array('data' => $argumentsValues[0]));
+
+                    $values[$i] = $rendered;
+                } else
+                    $values[$i] = $argumentsValues;
             }
+
+            EventSystem::fireEvent($actions[2][$i], array(&$values[$i]));
         }
 
-        if (!$req)
-            $tPage = str_replace($matches[0], $matches[5], $tPage);
+        return str_replace($actions[0], $values, $page);
+    }
 
-        return str_replace($matches[0], $matches[5], $tPage);
+    public static function parseArgs($argString, $context = array())
+    {
+        $arguments = array();
+        $argumentsValues = array();
+        preg_match_all('/([\w\.]+)|([\"\"\/\.\:\w]+)|(\([\(\)\w\"\:\s\.\,]+\))/', $argString, $arguments);
+
+        foreach ($arguments[0] as $i => $argument) {
+            $argumentsValues[$i] = self::parseArgument($argument, $context);
+        }
+
+        return $argumentsValues;
+    }
+
+    public static function parseArgument($argString, $context = array())
+    {
+
+        if ($argString[0] == '"') {
+            return substr($argString, 1, -1);
+        } else if ($argString[0] == '(') {
+            return self::parseArray(substr($argString, 1, -1), $context);
+        } else {
+            return self::parseExpression($argString, $context);
+        }
+    }
+
+    public static function parseArray($arrayExpression, $context = array())
+    {
+        $result = array();
+        $expressions = array();
+        preg_match_all('/(\w+):\s*([\w\"\.]+)/', $arrayExpression, $expressions);
+
+        foreach ($expressions[1] as $i => $key) {
+            $result[$key] = self::parseArgument($expressions[2][$i], $context);
+        }
+
+        return $result;
+    }
+
+    public static function parseExpression($expression, $context = array())
+    {
+        if ($expression == 'context') {
+            return $context;
+        }
+
+        $path = array();
+        preg_match_all('/(\w+)/', $expression, $path);
+
+        return self::getValue($path[0], $context);
+    }
+
+    public static function getValue($path, $context = array())
+    {
+        if (count($path) == 0) {
+            return $context;
+        } else {
+            $part = array_shift($path);
+            return self::getValue($path, isset($context[$part]) ? $context[$part] : '');
+        }
     }
 }
-
-?>
