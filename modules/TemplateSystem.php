@@ -12,6 +12,7 @@ class TemplateSystem
      * Файл шаблона
      */
     private static $mTemplate;
+    private static $context;
 
     /**
      * Установка каталога шаблонов
@@ -20,6 +21,14 @@ class TemplateSystem
     public static function setTemplate($template = ".")
     {
         self::$mTemplate = $template . '/';
+    }
+
+    /**
+     * @param array $context
+     */
+    public static function setContext($context = array())
+    {
+        self::$context = $context;
     }
 
     /**
@@ -75,6 +84,13 @@ class TemplateSystem
                         }
                     }
                 } else if ($actions[1][$i] == "*") {
+//                    foreach ($argumentsValues as $i => $array) {
+//                        if (!is_array($array)) {
+//                            throw new Exception('It is not array : ' . print_r($array, true));
+////                            $argumentsValues[$i] = array('' => $array);
+//                        }
+//                    }
+
                     $values[$i] = array_merge(...$argumentsValues);
                     $rendered = '';
 
@@ -146,7 +162,13 @@ class TemplateSystem
         $path = array();
         preg_match_all('/(\w+)/', $expression, $path);
 
-        return self::getValue($path[0], $context);
+        $value = self::getValue($path[0], $context);
+
+        if ($value == 'undefined') {
+            $value = self::getValue($path[0], self::$context);
+        }
+
+        return $value;
     }
 
     public static function getValue($path, $context = array())
@@ -155,7 +177,7 @@ class TemplateSystem
             return $context;
         } else {
             $part = array_shift($path);
-            return self::getValue($path, isset($context[$part]) ? $context[$part] : '');
+            return self::getValue($path, isset($context[$part]) ? $context[$part] : 'undefined');
         }
     }
 }

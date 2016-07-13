@@ -25,7 +25,7 @@
     <div class="header">
         <nav>
             <ul class="nav nav-pills pull-right">
-                *{menu.tpl Menu.Items}
+                *{menu.tpl articles}
             </ul>
         </nav>
         <h3 class="text-muted"><a href="${Core.home}">${Core.title}</a></h3>

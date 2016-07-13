@@ -5,11 +5,14 @@ function __autoload($className)
     try {
         if (is_file("modules/" . $className . ".php"))
             require_once "modules/" . $className . ".php";
+        else if (is_file("plugins/" . $className . "/" . $className . ".php"))
+            require_once "plugins/" . $className . "/" . $className . ".php";
+        else if (is_file("models/" . $className . ".php"))
+            require_once "models/" . $className . ".php";
+        elseif (is_file("controllers/" . $className . ".php"))
+            require_once "controllers/" . $className . ".php";
         else
-            if (is_file("plugins/" . $className . "/" . $className . ".php"))
-                require_once "plugins/" . $className . "/" . $className . ".php";
-            else
-                echo "Class \"$className\" load error!";
+            echo "Class \"$className\" load error!";
     } catch (Exception $e) {
         echo 'Выброшено исключение: ', $e->getMessage(), "\n";
     }

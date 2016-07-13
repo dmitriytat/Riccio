@@ -1,3 +1,3 @@
 #{header.tpl}
-    *{article.tpl List.Items}
+    *{article.tpl articles}
 #{footer.tpl}

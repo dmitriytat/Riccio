@@ -1,3 +1,3 @@
 #{header.tpl}
-    #{article.tpl Article}
+    #{article.tpl article}
 #{footer.tpl}

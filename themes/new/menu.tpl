@@ -1,1 +1,1 @@
-<li role="presentation"><a r-id="${data.id}" href="${data.url}.html">${data.title}</a></li>
+<li role="presentation"><a r-id="${data.id}" href="${Core.home}${data.alias}.html">${data.title}</a></li>
