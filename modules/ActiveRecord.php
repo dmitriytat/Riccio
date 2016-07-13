@@ -77,12 +77,15 @@ abstract class ActiveRecord extends ArrayObject
                 throw new Exception("Error updating record: " . self::$mysqli->error);
             }
         } else {
-
-            self::$mysqli->query(sprintf(
+            $result = self::$mysqli->query(sprintf(
                 "INSERT INTO " . strtolower($className) . " (%s) VALUES (\"%s\")",
-                implode(',', array_keys(get_object_vars($this))),
-                implode('","', array_values(get_object_vars($this)))
+                implode(',', array_keys((array)$this)),
+                implode('","', array_values((array)$this))
             ));
+
+            if (!$result) {
+                throw new Exception("Error insert record: " . self::$mysqli->error);
+            }
 
             $this->id = self::$mysqli->insert_id;
         }
@@ -176,11 +179,22 @@ abstract class ActiveRecord extends ArrayObject
         return $records;
     }
 
-    public static function all()
+    public static function all($attributes = array(), $limit = 0, $offset = 0)
     {
         $className = get_called_class();
 
-        $result = self::$mysqli->query("SELECT * FROM " . strtolower($className) . ";");
+        $where = 'WHERE ';
+        if (!empty($attributes)) {
+            foreach ($attributes as $key => $val)
+                $where .= "$key='$val' AND ";
+            $where = substr($where, 0, -5);
+        } else
+            $where = '';
+
+        $limit = $limit > 0 ? 'LIMIT ' . $limit : '';
+        $offset = $offset > 0 ? 'OFFSET ' . $offset : '';
+
+        $result = self::$mysqli->query("SELECT * FROM " . strtolower($className) . " $where $limit $offset;");
 
         $records = array();
 

@@ -12,7 +12,7 @@ class UsersController
     {
         $users = User::all();
 
-        if (isset($params['ext']) && $params['ext'] == "json") {
+        if (isset($params['parameters']['ext']) && $params['parameters']['ext'] == "json") {
             return json_encode($users);
         } else {
             return TemplateSystem::render('users.tpl', array('users' => $users));
@@ -21,9 +21,22 @@ class UsersController
 
     public static function one($params)
     {
-        $user = User::findOne(array('id' => $params['id']));
+        $user = User::findOne(array('id' => $params['parameters']['id']));
 
-        if (isset($params['ext']) && $params['ext'] == "json") {
+        if (isset($params['parameters']['ext']) && $params['parameters']['ext'] == "json") {
+            return json_encode($user);
+        } else {
+            return TemplateSystem::render('user.tpl', array('data' => $user));
+        }
+    }
+
+    public static function new($params)
+    {
+        $user = new User($params['request']);
+
+        $user->save();
+
+        if (isset($params['parameters']['ext']) && $params['parameters']['ext'] == "json") {
             return json_encode($user);
         } else {
             return TemplateSystem::render('user.tpl', array('data' => $user));

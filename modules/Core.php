@@ -51,7 +51,7 @@ class Core
         $result->close();
 
         $this->data['title'] = $res['title'];
-        $this->data['home'] = '//' . $_SERVER['SERVER_NAME'] . "/riccio/";
+        $this->data['home'] = '//' . $_SERVER['SERVER_NAME'] . "/";
         $this->data['theme'] = $res['theme'];
         $this->data['copy'] = $res['copy'];
 

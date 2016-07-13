@@ -10,6 +10,7 @@ php_value register_globals off
 
 #<IfModule mod_rewrite.c>
 RewriteEngine On
+RewriteRule ^themes - [L,NC]
 RewriteRule ^(.*)$ index.php [NC,L]
 
 #</IfModule>

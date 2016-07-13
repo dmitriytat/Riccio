@@ -21,11 +21,12 @@ class Router
     public function go()
     {
         $path = $_SERVER['REQUEST_URI'];
+        $method = $_SERVER['REQUEST_METHOD'];
 
         $work = null;
 
         foreach ($this->routes as $pattern => $route) {
-            if ($work = preg_match('/^' . $pattern . '$/i', $path)) {
+            if ($route->method == $method && $work = preg_match('/^' . $pattern . '$/i', $path)) {
                 $route->proceed($path);
                 break;
             }
@@ -42,8 +43,8 @@ class Router
 class Route
 {
     public $pattern;
+    public $method;
     private $action;
-    private $method;
     private $parameters;
 
     /**
@@ -92,6 +93,6 @@ class Route
             $parameters[$key] = $values[$i + 1];
         }
 
-        return $parameters;
+        return array('parameters' => $parameters, 'request' => $_REQUEST);
     }
 }

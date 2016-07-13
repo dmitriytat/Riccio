@@ -35,11 +35,16 @@ class TemplateSystem
      * Рендер tpl
      * @param $templateFile
      * @param array $context
-     * @return string
+     * @param null $dir
+     * @return mixed
      * @throws Exception
      */
-    public static function render($templateFile, $context = array())
+    public static function render($templateFile, $context = array(), $dir = null)
     {
+        if ($dir) {
+            $templateFile = $dir . $templateFile;
+        }
+
         if (!file_exists($templateFile))
             $templateFile = self::$mTemplate . $templateFile;
 
@@ -64,7 +69,7 @@ class TemplateSystem
                 } else if ($actions[1][$i] == "#") {
                     $rendered = '';
 
-                    $rendered .= self::render($actions[2][$i], $context);
+                    $rendered .= self::render($actions[2][$i], $context, $dir);
 
                     $values[$i] = $rendered;
                 }
@@ -84,25 +89,18 @@ class TemplateSystem
                         }
                     }
                 } else if ($actions[1][$i] == "*") {
-//                    foreach ($argumentsValues as $i => $array) {
-//                        if (!is_array($array)) {
-//                            throw new Exception('It is not array : ' . print_r($array, true));
-////                            $argumentsValues[$i] = array('' => $array);
-//                        }
-//                    }
-
                     $values[$i] = array_merge(...$argumentsValues);
                     $rendered = '';
 
                     foreach ($values[$i] as $item) {
-                        $rendered .= self::render($actions[2][$i], array('key' => 'todo', 'data' => $item));
+                        $rendered .= self::render($actions[2][$i], array('key' => 'todo', 'data' => $item), $dir);
                     }
 
                     $values[$i] = $rendered;
                 } else if ($actions[1][$i] == "#") {
                     $rendered = '';
 
-                    $rendered .= self::render($actions[2][$i], array('data' => $argumentsValues[0]));
+                    $rendered .= self::render($actions[2][$i], array('data' => $argumentsValues[0]), $dir);
 
                     $values[$i] = $rendered;
                 } else
