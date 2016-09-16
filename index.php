@@ -27,24 +27,6 @@ TemplateSystem::setContext($Context);
 
 $router = new Router();
 
-//Message::sync(true);
-//
-//function generateRandomString($length = 10)
-//{
-//    $characters = '      0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-//    $charactersLength = strlen($characters);
-//    $randomString = '';
-//    for ($i = 0; $i < $length; $i++) {
-//        $randomString .= $characters[rand(0, $charactersLength - 1)];
-//    }
-//    return $randomString;
-//}
-//
-//for ($i = 0; $i < 10; $i++) {
-//    $message = new Message(array('article' => random_int(1, 2), 'text' => generateRandomString(140)));
-//    $message->save();
-//}
-
 $router->attachRoute(new Route('/users', 'UsersController::all'));
 $router->attachRoute(new Route('/users.:ext', 'UsersController::all'));
 $router->attachRoute(new Route('/users', 'UsersController::new', 'POST'));
